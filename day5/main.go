@@ -12,39 +12,29 @@ func check(e error) {
 	}
 }
 
-func checkNiceForVowel(s string) bool {
-	vowelCount := strings.Count(s, "a") + strings.Count(s, "e") + strings.Count(s, "i") + strings.Count(s, "o") + strings.Count(s, "u")
-	if vowelCount < 3 {
-		return false
-	}
-	return true
-}
-
-func checkNiceForTwice(s string) bool {
-	var previousChar rune
+func checkNiceForAnyTwoTwice(s string) bool {
 	twiceFound := false
-	for _, c := range s {
-		if previousChar == c {
+	for i := 0; i < len(s)-1; i++ {
+		previousStr := s[i : i+2]
+		if strings.Count(s, previousStr) > 1 {
 			twiceFound = true
 			break
 		}
-		previousChar = c
 	}
-	if !twiceFound {
-		return false
-	}
-	return true
+	return twiceFound
 }
 
-func checkNiceForSubstring(s string, sub string) bool {
-	if strings.Contains(s, sub) {
-		return false
+func checkNiceForRepeatWithOneLetter(s string) bool {
+	for i := 0; i < len(s)-2; i++ {
+		if s[i] == s[i+2] {
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 func checkNice(s string) bool {
-	if checkNiceForVowel(s) && checkNiceForTwice(s) && checkNiceForSubstring(s, "ab") && checkNiceForSubstring(s, "cd") && checkNiceForSubstring(s, "pq") && checkNiceForSubstring(s, "xy") {
+	if checkNiceForAnyTwoTwice(s) && checkNiceForRepeatWithOneLetter(s) {
 		return true
 	}
 	return false
