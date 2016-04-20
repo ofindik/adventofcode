@@ -23,16 +23,15 @@ func convertToInt(arg string) int {
 	return result
 }
 
-func processTurnCommand(commandArr []string) {
-	start := commandArr[2]
-	startArr := strings.Split(start, ",")
-	startX := convertToInt(startArr[0])
-	startY := convertToInt(startArr[1])
+func parseXY(xyString string) (int, int) {
+	xyArr := strings.Split(xyString, ",")
 
-	end := commandArr[4]
-	endArr := strings.Split(end, ",")
-	endX := convertToInt(endArr[0])
-	endY := convertToInt(endArr[1])
+	return convertToInt(xyArr[0]), convertToInt(xyArr[1])
+}
+
+func processTurnCommand(commandArr []string) {
+	startX, startY := parseXY(commandArr[2])
+	endX, endY := parseXY(commandArr[4])
 
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
@@ -49,15 +48,8 @@ func processTurnCommand(commandArr []string) {
 }
 
 func processToggle(commandArr []string) {
-	start := commandArr[1]
-	startArr := strings.Split(start, ",")
-	startX := convertToInt(startArr[0])
-	startY := convertToInt(startArr[1])
-
-	end := commandArr[3]
-	endArr := strings.Split(end, ",")
-	endX := convertToInt(endArr[0])
-	endY := convertToInt(endArr[1])
+	startX, startY := parseXY(commandArr[1])
+	endX, endY := parseXY(commandArr[3])
 
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
