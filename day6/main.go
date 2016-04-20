@@ -38,9 +38,11 @@ func processTurnCommand(commandArr []string) {
 		for j := startY; j <= endY; j++ {
 			switch commandArr[1] {
 			case "on":
-				grid[i][j] = 1
+				grid[i][j] += 1
 			case "off":
-				grid[i][j] = 0
+				if grid[i][j] > 0 {
+					grid[i][j] -= 1
+				}
 			}
 		}
 	}
@@ -59,11 +61,7 @@ func processToggle(commandArr []string) {
 
 	for i := startX; i <= endX; i++ {
 		for j := startY; j <= endY; j++ {
-			if grid[i][j] == 0 {
-				grid[i][j] = 1
-			} else {
-				grid[i][j] = 0
-			}
+			grid[i][j] += 2
 		}
 	}
 }
@@ -93,13 +91,11 @@ func main() {
 	for i := 0; i < len(dataArr); i++ {
 		processCommand(dataArr[i])
 	}
-	litLights := 0
+	totalBrightness := 0
 	for i := 0; i < 1000; i++ {
 		for j := 0; j < 1000; j++ {
-			if grid[i][j] == 1 {
-				litLights++
-			}
+			totalBrightness += grid[i][j]
 		}
 	}
-	fmt.Println("litLights:", litLights)
+	fmt.Println("totalBrightness:", totalBrightness)
 }
